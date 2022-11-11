@@ -1,14 +1,15 @@
 const mongoose = require("mongoose")
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 
 const studentSchema = mongoose.Schema({
-    name:{
-        type:String,
-        required:true
+    name: {
+        type: String,
+        required: true
     },
-    rollNo:{
-        type:Number,
-        required:true
+    rollNo: {
+        type: Number,
+        required: true
     },
     marks: {
         type: [{
@@ -20,17 +21,23 @@ const studentSchema = mongoose.Schema({
                 type: Number,
                 required: true
             },
-            _id:false
+            _id: false
         }
 
         ]
 
     },
-    isdeleted:{
-        type:Boolean,
-        default:false
+    teacherId: {
+        type: ObjectId,
+        ref: "teacher",
+        required: true
+
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 },
-{timestamps:true})
+    { timestamps: true })
 
-module.exports = mongoose.model("Student",studentSchema)
+module.exports = mongoose.model("Student", studentSchema)

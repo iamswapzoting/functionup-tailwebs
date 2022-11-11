@@ -4,19 +4,24 @@ const mongoose = require("mongoose")
 const teacherSchema = mongoose.Schema({
     fname :{
         type:String,
-        require:true
+        required:true
     },
     lname:{
         type:String,
-        require:true
+        required:true
     },
     emailId:{
         type:String,
-        require:true
+        required:true,
+        unique:true
     },
     password:{
         type:String,
-        require:true
+        required:true
+    },
+    isDeleted:{
+        type:Boolean,
+        default:flase
     }
 },{
     timestamps:true
