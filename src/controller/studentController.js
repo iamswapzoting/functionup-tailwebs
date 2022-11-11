@@ -10,6 +10,7 @@ const createStudent = async function (req, res) {
     let name = req.body.name
     let rollNo = req.body.rollNo
     let teacherId = req.params.teacherId
+    data.teacherId = teacherId
     let subject = req.body.marks.subject
     let marks = req.body.marks.marks
     let arr = []
@@ -29,30 +30,34 @@ const createStudent = async function (req, res) {
         if (isStudent.name != name) return res.status(400).send({ status: false, msg: "rollNo is already Exist" })
 
         const total = isStudent.marks.length;
+        let index = null;
         for (let i = 0; i < total; i++) {
             if (isStudent.marks[i].subject == subject) {
                 let x = isStudent.marks[i]
                 x.marks += marks
                 arr.push(x)
+                index = i
             } else {
                 console.log(isStudent.marks[i]);
                 arr.push(isStudent.marks[i])
             }
         }
 
+        if(index==null) return res.status(400).send({ status: false, msg: "student has been already exist" })
         const updateStudent = await studentModel.findOneAndUpdate({ rollNo: rollNo , teacherId:teacherId  }, { marks: arr }, { new: true })
         return res.status(200).send({ status: true, msg: "data is updated", data: updateStudent })
     }
-
+    console.log(data);
     const createdStudentData = await studentModel.create(data)
+    console.log("hiiii");
     return res.status(201).send({ status: true, msg: "Succcesfully Created", data: createdStudentData })
 }
 
-const getStudent = async function(res,res){
+const getStudent = async function(req,res){
     let teacherId = req.params.teacherId
     if (!teacherId) return res.status(400).send({ status: false, msg: "teacherId is mandatory" })
 
-    const getStudentdata = await studentModel.find()
+    const getStudentdata = await studentModel.find({teacherId:teacherId})
     return res.status(200).send({status:true,msg:"sucsess",data:getStudentdata})
 }
 

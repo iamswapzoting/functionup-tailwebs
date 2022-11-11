@@ -10,6 +10,8 @@ const auth = require("../middleware/auth")
 
 router.post("/teacher",teacherController.createTeacher)
 
+router.post("/login",teacherController.login)
+
 
 
 router.post("/student/teacherId/:teacherId",auth.Authentication ,auth.Authorisation,studentController.createStudent)

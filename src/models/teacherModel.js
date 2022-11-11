@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 
-const teacherSchema = mongoose.Schema({
+const teacherSchema = new mongoose.Schema({
     fname :{
         type:String,
         required:true
@@ -21,7 +21,7 @@ const teacherSchema = mongoose.Schema({
     },
     isDeleted:{
         type:Boolean,
-        default:flase
+        default:false
     }
 },{
     timestamps:true

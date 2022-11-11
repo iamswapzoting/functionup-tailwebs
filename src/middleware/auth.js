@@ -13,7 +13,8 @@ const Authentication = async (req, res, next) => {
         const decodedToken = jwt.verify(token, "tailwebs-2022")
         console.log(decodedToken)
         if (!decodedToken) return res.status(403).send({ status: false, message: "Invalid authentication token" });
-        req.teacherLogIn = decodedToken.AuthorId
+        req.body.teacherLogIn = decodedToken.teacherId
+
         next()
     } catch (error) {
         res.status(500).send({ status: false, message: error.message });
@@ -28,8 +29,10 @@ const Authentication = async (req, res, next) => {
 
 const Authorisation = async (req, res, next) => {
     try {
-        let teacherLogIn = req.teacherLogIn
+        let teacherLogIn = req.body.teacherLogIn
+
         let teacherId = req.params.teacherId
+
 
         if (!teacherId) return res.status(400).send({ status: false, message: "techerId is not present" });
         if (teacherId != teacherLogIn) return res.status(403).send({ status: false, msg: "teacherId logged is not allowed to modify the requested or You have given invalid 'teacherId'" })
